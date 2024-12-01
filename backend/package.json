@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --loader ts-node/esm server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@requestnetwork/currency": "^0.19.0",
+    "@requestnetwork/data-format": "^0.19.1",
+    "@requestnetwork/epk-decryption": "^0.7.1",
+    "@requestnetwork/epk-signature": "^0.9.1",
+    "@requestnetwork/payment-processor": "^0.48.0",
+    "@requestnetwork/request-client.js": "^0.50.0",
+    "@requestnetwork/web3-signature": "^0.8.1",
+    "dotenv": "^16.4.5",
+    "ethers": "^5.7.2",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
