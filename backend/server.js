@@ -9,6 +9,7 @@ import {
   } from "@requestnetwork/payment-processor";
 import dotenv from "dotenv";
 import express from "express";
+import crypto from "crypto";
 const request_sepolia_gateway = "https://sepolia.gateway.request.network"
 dotenv.config({
   path: ".env",
@@ -155,10 +156,168 @@ app.get("/getrequest", async (req, res) => {
   const requestdata = request.getData();
 
   res.send(requestdata);
-   
-
-
  });
+
+
+
+const encryptData = (data, secretKey) => {
+  const iv = crypto.randomBytes(18);
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(secretKey), iv);
+  let encrypted = cipher.update(JSON.stringify(data));
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return {
+    iv: iv.toString('hex'),
+    encryptedData: encrypted.toString('hex')
+  };
+};
+
+const decryptData = (encryptedData, iv, secretKey) => {
+  const decipher = crypto.createDecipheriv(
+    'aes-256-cbc', 
+    Buffer.from(secretKey),
+    Buffer.from(iv, 'hex')
+  );  
+  let decrypted = decipher.update(Buffer.from(encryptedData, 'hex'));
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+  return JSON.parse(decrypted.toString());
+};
+
+// Modified business creation endpoint
+app.post("/createbusiness", async (req, res) => {
+  const businessData = {
+    name: req.body.name,
+    email: req.body.email, 
+    registration_number: req.body.registration_number,
+    address: req.body.address,
+    phone_number: req.body.phone_number
+  };
+
+  // Generate hash for on-chain storage
+ // this is a one way hash and cannot be decrypted 
+  // const businessHash = ethers.utils.keccak256(
+  //   ethers.utils.defaultAbiCoder.encode(
+  //     ['string', 'string', 'string', 'string', 'string'],
+  //     [businessData.name, businessData.email, businessData.registration_number, 
+  //      businessData.address, businessData.phone_number]
+  //   )
+  // );
+
+  
+  const secretKey = process.env.ENCRYPTION_KEY; 
+  const encrypted = encryptData(businessData, secretKey);
+// store this encrypted data to blockchain
+  
+  
+  
+  
+  
+
+  res.json({
+    message: "Business data stored successfully"
+  });
+});
+
+
+app.get("/business/:walletaddress", async (req, res) => {
+  const walletaddress = req.params.walletaddress;
+  
+  // Fetch encrypted data from blockchain using wallet address
+ 
+  
+
+
+
+
+
+  
+  // For demo, using mock stored data
+  const storedData = {
+    encryptedData: "encrypted-hex-string",
+    iv: "iv-hex-string"
+  };
+
+  const secretKey = process.env.ENCRYPTION_KEY;
+  const decryptedData = decryptData(
+    storedData.encryptedData,
+    storedData.iv,
+    secretKey
+  );
+
+  res.json(decryptedData);
+
+});
+
+app.post("/createplans/:walletaddress", async (req, res) => {
+  const { walletaddress } = req.params;
+  const plansData = req.body;
+  // Generate hash for on-chain storage
+  const seceret_key = process.env.ENCRYPTION_KEY;
+  const encrypted = encryptData(plansData, seceret_key);
+  // store this encrypted data to blockchain
+
+
+
+
+
+
+
+
+  res.json({
+    message: "Plans created successfully"
+  });
+
+})
+ 
+app.get("/plans/:walletaddress", async (req, res) => { 
+  const walletaddress = req.params.walletaddress;
+  // Fetch encrypted data from blockchain using wallet address
+ 
+
+
+
+
+
+
+  
+  // For demo, using mock stored data
+  const plansData = {
+    encryptedData: "encrypted-hex-string",
+    iv: "iv-hex-string"
+  };
+
+  const secretKey = process.env.ENCRYPTION_KEY;
+  const decryptedData = decryptData(
+    plansData.encryptedData,
+    plansData.iv,
+    secretKey
+  );
+
+  res.json(decryptedData);
+
+})
+
+app.get("/payment-gateway", async (req, res) => { 
+
+  const { } = req.body;
+  
+  //here i will use request network to create a payment gateway
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
