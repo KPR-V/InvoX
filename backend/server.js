@@ -229,7 +229,7 @@ app.get("/business/:walletaddress", async (req, res) => {
 
 
 
-  
+
   // For demo, using mock stored data
   const storedData = {
     encryptedData: "encrypted-hex-string",
@@ -296,6 +296,62 @@ app.get("/plans/:walletaddress", async (req, res) => {
 
 })
 
+app.post("/explore", async (req, res) => {
+  // fetch all the plans created by different business stored on blockchain
+
+
+
+
+
+
+
+
+
+  // For demo, using mock stored data
+  
+  const plansData = {
+    encryptedData: "encrypted-hex-string",
+    iv: "iv-hex-string",
+  };
+
+  const secretKey = process.env.ENCRYPTION_KEY;
+  const decryptedData = decryptData(
+    plansData.encryptedData,
+    plansData.iv,
+    secretKey
+  );
+
+  res.json(decryptedData);
+})
+
+app.get("/my-plans/:walletaddress", async (req, res) => { 
+  const { walletaddress } = req.params
+  // fetch all the plans purchased by the customer stored on blockchain
+
+
+
+
+
+
+  // For demo, using mock stored data
+  const plansData = {
+    encryptedData: "encrypted-hex-string",
+    iv: "iv-hex-string",
+  };
+
+ const secretKey = process.env.ENCRYPTION_KEY;
+ const decryptedData = decryptData(
+   plansData.encryptedData,
+   plansData.iv,
+   secretKey
+ );
+
+ res.json(decryptedData);
+
+ })
+
+
+
 app.get("/payment-gateway", async (req, res) => { 
 
   const { } = req.body;
@@ -304,7 +360,20 @@ app.get("/payment-gateway", async (req, res) => {
 
 
 
+
+
+
+  //here also add purchased subscription to both blockchain of business and customer profile
+  
+  
+
+
+
+
 })
+
+
+
 
 
 
