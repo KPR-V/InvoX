@@ -67,12 +67,12 @@ const Explore: React.FC = () => {
 
   return (
     <>
-      <div className="mb-20 pb-60 border-b-[1px] border-orange-400 w-[90%] mx-auto">
-        <div className="mt-20 mb-20 text-center text-5xl tracking-tighter hover:text-orange-400 transition-colors duration-300 cursor-pointer ">
+      <div className=" pb-10 border-b-[1px] border-orange-400 w-[90%] mx-auto">
+        <div className="mt-20 mb-20 text-center text-5xl tracking-tighter hover:text-orange-400 transition-colors duration-300 cursor-pointer text-white ">
           Explore Businesses
         </div>
         <div
-          className="container w-[90%] h-[40rem] bg-zinc-950 mt-5 border-y-2 border-orange-400 mx-auto rounded-3xl overflow-y-auto p-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="container w-[90%] h-[60rem] bg-zinc-950 mt-5 border-y-2 border-orange-400 mx-auto rounded-3xl overflow-y-auto p-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
           style={{
             scrollbarWidth: "none" /* Firefox */,
             msOverflowStyle: "none" /* Internet Explorer 10+ */,

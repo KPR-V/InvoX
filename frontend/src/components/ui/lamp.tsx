@@ -21,7 +21,7 @@ const LampDemo: React.FC<LampDemoProps> = ({ Type, Words }) => {
         }}
         className="mt-8 bg-gradient-to-br from-white to-slate-300 py-4 bg-clip-text text-center font-montserrat text-3xl font-medium tracking-tight text-transparent md:text-6xl"
       >
-        {Type} <br /> Dashboard
+        {Type} <br /> 
       </motion.h1>
 
       <motion.h1
