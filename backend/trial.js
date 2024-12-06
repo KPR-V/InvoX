@@ -5,17 +5,26 @@ const requestClient = new RequestNetwork({
 
     },
 });
+const requestClient2 = new RequestNetwork({
+    nodeConnectionConfig: { 
+        baseURL: "https://gnosis.gateway.request.network/",
+
+    },
+});
 
 const identityAddress ="0x828cCc45007EFC1c1d1c221c279B5ac8a7C85592";
 const requests = await requestClient.fromIdentity({
     type:Types.Identity.TYPE.ETHEREUM_ADDRESS,
     value: identityAddress,
 });
+const requests2 = await requestClient2.fromIdentity({
+    type:Types.Identity.TYPE.ETHEREUM_ADDRESS,
+    value: identityAddress,
+});
 // console.log(requests);
 const requestDatas = requests.map((request) => request.getData());
+const requestDatas2 = requests2.map((request) => request.getData());
 console.log(requestDatas);
+console.log(requestDatas2);
 
 
-// const requestId="01eb582767b20d463a67d6444c912bd93c0c380e2fd29322e54cfdfd7d7c00cc02";
-// const x =await RequestNetwork.fromRequestId(requestId);
-// console.log(x.getData());
