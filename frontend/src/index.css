@@ -39,3 +39,64 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.nav-link {
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #fb923c; /* Tailwind orange-400 */
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+
+
+.border-running {
+  position: relative;
+}
+.border-running::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  background: linear-gradient(90deg, #fb923c 0%, transparent 50%, #fb923c 100%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderRotate 2s linear infinite;
+  background-size: 200% 100%;
+  pointer-events: none; /* Add this line */
+}
+@keyframes borderRotate {
+  100% { background-position: -200% 0; }
+}
+
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
