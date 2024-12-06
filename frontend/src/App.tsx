@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { BrowserRouter as Router,Route,Routes,Navigate,useNavigate} from "react-router-dom";
-import Header from "./components/header";
+import Header from "./components/Navbar";
 import LandingPage from "./pages/landingpage";
 import Dashboard from "./pages/dashboard";
 import CreateInvoice from "./pages/createinvoice";
