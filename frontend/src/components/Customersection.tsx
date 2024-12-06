@@ -3,10 +3,10 @@ import CustomerCard from "./CustomerCard";
 const Customersection = () => {
   return (
     <>
-      <div className="flex justify-between bg-zinc-950 mt-32 pb-32 w-[90%] mx-auto py-40 border-t-[1px] border-orange-400">
+      <div className="flex justify-between bg-zinc-950 mt-32 pb-32 w-[90%] text-white mx-auto py-40 border-t-[1px] border-orange-400">
         <CustomerCard />
         <div className="flex-col w-[50%]">
-          <div className="text-3xl font-gradient-to-r from-orange-400 to-orange-200 font-extrabold font-montserrat">
+          <div className="text-3xl font-gradient-to-r from-orange-400 to-orange-200 font-extrabold hover:text-orange-400 transition-colors duration-300  nav-link font-montserrat">
             Login as a Customer
           </div>
           <div className="mt-6">

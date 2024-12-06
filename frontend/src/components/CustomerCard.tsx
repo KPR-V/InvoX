@@ -72,7 +72,7 @@ const CustomerCard: React.FC = () => {
   return (
     <div className="relative w-[30%] mx-auto ">
       <div className="bg-zinc-950 rounded-2xl p-6 flex flex-col justify-around border-running shadow-3xl shadow-orange-400">
-        <h2 className="text-2xl font-bold mb-3 text-center">Customer Login</h2>
+        <h2 className="text-2xl font-bold mb-3 text-center ">Customer Login</h2>
         <div>
           {walletAddress ? (
             <button
@@ -87,7 +87,7 @@ const CustomerCard: React.FC = () => {
               disabled={isConnecting}
               className={`w-full py-2 px-4 rounded ${
                 !isConnecting
-                  ? "bg-orange-400  hover:bg-orange-500 text-black"
+                  ? "bg-orange-400 text-black hover:bg-orange-500 hover:text-white"
                   : "bg-orange-400  text-black"
               }`}
             >

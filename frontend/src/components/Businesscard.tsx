@@ -92,9 +92,9 @@ const BusinessCard: React.FC = () => {
   return (
     <div className="relative w-[30%] mx-auto ">
       <div className="bg-zinc-950 rounded-2xl p-6 flex flex-col  border-running shadow-3xl shadow-orange-400 min-h-[500px] justify-between">
-        <h2 className="text-2xl font-bold mb-4">Business Registration</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Business Registration</h2>
 
-        <div>
+        <div className="text-black">
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">
               Business Name
