@@ -1,5 +1,4 @@
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Businesssection from "./components/Businesssection";
 import Customersection from "./components/Customersection";
@@ -14,7 +13,6 @@ function App() {
           element={
             <div className="bg-zinc-950 h-full w-full !scroll-smooth">
               <Navbar />
-              <Hero />
               <Businesssection />
               <Customersection />
             </div>
