@@ -24,9 +24,7 @@ function App() {
    };
 
    const handleThirdButtonClick = () => {
-     if (customerSectionRef.current) {
-       customerSectionRef.current.scrollIntoView({ behavior: "smooth" });
-     }
+     
    };
   return (
     <Router>
