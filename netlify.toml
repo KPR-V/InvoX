@@ -1,0 +1,15 @@
+[build]
+  base = "/"
+  publish = "frontend/dist"
+  command = "npm run build"
+
+[functions]
+  directory = "backend/functions"
+
+[build.environment]
+  NODE_VERSION = "22.6.0"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

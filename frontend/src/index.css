@@ -49,6 +49,10 @@ html , body {
   width: 100%;
 }
 
+.no-scroll {
+  overflow: hidden;
+
+}
 
 
 .border-running {
@@ -88,6 +92,23 @@ html , body {
 .container {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
+}
+
+/* Add these new styles */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 /* Remove or comment out these scroll snap classes */

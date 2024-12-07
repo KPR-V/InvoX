@@ -31,7 +31,7 @@ const Subscriptions: React.FC = () => {
 
   return (
     <div className="w-[90%] mx-auto pb-10">
-      <div className="mb-20 mt-20 text-center text-5xl tracking-tighter text-zinc-300 font-light font-montserrat transition-colors duration-300 cursor-pointer">
+      <div className="mb-20 mt-20 text-center text-5xl tracking-tighter text-zinc-300 font-light font-montserrat hover:text-orange-400 transition-colors duration-300 cursor-pointer">
         Manage Subscriptions
       </div>
 
