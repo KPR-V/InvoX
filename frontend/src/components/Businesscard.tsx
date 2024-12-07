@@ -11,7 +11,7 @@ const BusinessCard: React.FC = () => {
   const [businessDescription, setBusinessDescription] = useState("");
   const [isFeePaid, setIsFeePaid] = useState(false);
   const [isBusinessCreated, setIsBusinessCreated] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
+  // const [isConnecting, setIsConnecting] = useState(false);
   const navigate = useNavigate();
 
    const connectWallet = async () => {
@@ -19,7 +19,7 @@ const BusinessCard: React.FC = () => {
        alert("Please install MetaMask to continue!");
        return;
      }
-     setIsConnecting(true);
+    //  setIsConnecting(true);
      try {
        const provider = new ethers.providers.Web3Provider(window.ethereum);
        await provider.send("eth_requestAccounts", []);
@@ -68,7 +68,7 @@ const BusinessCard: React.FC = () => {
          alert("Failed to connect wallet. Please try again.");
        }
      } finally {
-       setIsConnecting(false);
+      //  setIsConnecting(false);
      }
    };
 
@@ -88,7 +88,8 @@ const BusinessCard: React.FC = () => {
   const goToDashboard = () => {
     navigate("/dashboardbusiness"); 
   };
-
+  console.log(isBusinessCreated)
+  // console.log(isConnecting)
   return (
     <div className="relative w-[30%] mx-auto ">
       <div className="bg-zinc-950 rounded-2xl p-6 flex flex-col  border-running shadow-3xl shadow-orange-400 min-h-[500px] justify-between">

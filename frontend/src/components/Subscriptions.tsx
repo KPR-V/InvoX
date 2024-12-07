@@ -8,27 +8,27 @@ interface Subscription {
 }
 
 const Subscriptions: React.FC = () => {
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([
-    {
-      companyName: "Amazon",
-      subscriptionType: "Premium",
-      subscriptionStatus: "Active",
-      subscriptionAmount: "$120",
-    },
-    {
-      companyName: "Netflix",
-      subscriptionType: "Gold",
-      subscriptionStatus: "Inactive",
-      subscriptionAmount: "$100",
-    },
-    {
-      companyName: "Spotify",
-      subscriptionType: "Silver",
-      subscriptionStatus: "Active",
-      subscriptionAmount: "$50",
-    },
-  ]);
-
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+setSubscriptions([
+  {
+    companyName: "Amazon",
+    subscriptionType: "Premium",
+    subscriptionStatus: "Active",
+    subscriptionAmount: "$120",
+  },
+  {
+    companyName: "Netflix",
+    subscriptionType: "Gold",
+    subscriptionStatus: "Inactive",
+    subscriptionAmount: "$100",
+  },
+  {
+    companyName: "Spotify",
+    subscriptionType: "Silver",
+    subscriptionStatus: "Active",
+    subscriptionAmount: "$50",
+  },
+]);
   return (
     <div className="w-[90%] mx-auto pb-10">
       <div className="mb-20 mt-20 text-center text-5xl tracking-tighter text-zinc-300 font-light font-montserrat hover:text-orange-400 transition-colors duration-300 cursor-pointer">
