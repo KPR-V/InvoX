@@ -1,5 +1,5 @@
 [build]
-  base = "/"
+  base = "frontend"
   publish = "frontend/dist"
   command = "npm run build"
 
@@ -7,7 +7,7 @@
   directory = "backend/functions"
 
 [build.environment]
-  NODE_VERSION = "22.6.0"
+  NODE_VERSION = "20"
 
 [[redirects]]
   from = "/*"
