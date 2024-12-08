@@ -6,6 +6,8 @@ import Customerdashboard from "./components/Customerdashboard";
 import Businessdashboard from "./components/Businessdashboard";
 import { useRef } from "react";
 import Hero from "./components/Hero";
+import { DataProvider } from "./Utils/datacontext";
+
 function App() {
    const businessSectionRef = useRef<HTMLDivElement>(null);
    const customerSectionRef = useRef<HTMLDivElement>(null);
@@ -27,40 +29,42 @@ function App() {
      
    };
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div
-              className="bg-zinc-950 h-full w-full !scroll-smooth"
-              style={{
-                scrollbarWidth: "none" /* Firefox */,
-                msOverflowStyle: "none" /* Internet Explorer 10+ */,
-              }}
-            >
-              <Navbar
-                firstbutton="Create Business"
-                secondbutton="Customer Login"
-                thirdbutton="Contact us"
-                onFirstButtonClick={handleFirstButtonClick}
-                onSecondButtonClick={handleSecondButtonClick}
-                onThirdButtonClick={handleThirdButtonClick}
-              />
-              <Hero />
-              <div ref={businessSectionRef}>
-                <Businesssection />
+    <DataProvider>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div
+                className="bg-zinc-950 h-full w-full !scroll-smooth"
+                style={{
+                  scrollbarWidth: "none" /* Firefox */,
+                  msOverflowStyle: "none" /* Internet Explorer 10+ */,
+                }}
+              >
+                <Navbar
+                  firstbutton="Create Business"
+                  secondbutton="Customer Login"
+                  thirdbutton="Contact us"
+                  onFirstButtonClick={handleFirstButtonClick}
+                  onSecondButtonClick={handleSecondButtonClick}
+                  onThirdButtonClick={handleThirdButtonClick}
+                />
+                <Hero />
+                <div ref={businessSectionRef}>
+                  <Businesssection />
+                </div>
+                <div ref={customerSectionRef}>
+                  <Customersection />
+                </div>
               </div>
-              <div ref={customerSectionRef}>
-                <Customersection />
-              </div>
-            </div>
-          }
-        />
-        <Route path="/dashboard" element={<Customerdashboard />} />
-        <Route path="/dashboardbusiness" element={<Businessdashboard />} />
-      </Routes>
-    </Router>
+            }
+          />
+          <Route path="/dashboard" element={<Customerdashboard />} />
+          <Route path="/dashboardbusiness" element={<Businessdashboard />} />
+        </Routes>
+      </Router>
+    </DataProvider>
   );
 }
 

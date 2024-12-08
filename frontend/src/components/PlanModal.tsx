@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-
+import { useData } from "../Utils/datacontext";
+import { addPlan } from "../Utils/add_a_plan";
+import { ethers } from "ethers";
 interface PlanDetails {
   name: string;
   amount: number;
-  duration: string;
+  duration: number;
   description: string;
 }
 
@@ -14,10 +16,12 @@ interface PlanModalProps {
 }
 
 const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, onCreatePlan }) => {
+  const { walletAddress ,setWalletAddress } = useData();
+  console.log(walletAddress);
   const [planDetails, setPlanDetails] = useState<PlanDetails>({
     name: "",
     amount: 0,
-    duration: "",
+    duration: 0,
     description: "",
   });
 
@@ -27,22 +31,50 @@ const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, onCreatePlan }) 
       setPlanDetails({
         name: "",
         amount: 0,
-        duration: "",
+        duration: 0,
         description: "",
       });
     }
   }, [isOpen]);
+
+  useEffect(() => {
+     const checkWalletConnection = async () => {
+       if (typeof window.ethereum !== "undefined") {
+         const provider = new ethers.providers.Web3Provider(window.ethereum);
+         const accounts = await provider.listAccounts();
+         if (accounts.length > 0) {
+           setWalletAddress(accounts[0]);
+         }
+       }
+     };
+     checkWalletConnection();
+    console.log("Current wallet address:", walletAddress);
+  }, [walletAddress]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setPlanDetails({ ...planDetails, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (planDetails.name && planDetails.amount && planDetails.duration && planDetails.description) {
-      onCreatePlan(planDetails);
+    if (!walletAddress) {
+      alert("Please connect your wallet first");
+      return;
+    }
+
+    try {
+      await addPlan(
+        planDetails.name,
+        planDetails.description,
+        planDetails.amount,
+        planDetails.duration,
+        walletAddress
+      );
       onClose();
+    } catch (error) {
+      console.error("Error adding plan:", error);
+      alert("Failed to add plan");
     }
   };
 

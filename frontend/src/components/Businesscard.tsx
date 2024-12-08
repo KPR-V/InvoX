@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { payFeeAndCreateBusiness } from "../Utils/CreateBusiness";
-
+import { useData } from "../Utils/datacontext";
 const BusinessCard: React.FC = () => {
   const [businessName, setBusinessName] = useState("");
   const [businessType, setBusinessType] = useState("");
   const [businessEmail, setBusinessEmail] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
-  const [walletAddress, setWalletAddress] = useState("");
+  // const [walletAddress, setWalletAddress] = useState("");
+  const { walletAddress, setWalletAddress } = useData();
   const [businessDescription, setBusinessDescription] = useState("");
   const [isFeePaid, setIsFeePaid] = useState(false);
   const [isBusinessCreated, setIsBusinessCreated] = useState(false);
