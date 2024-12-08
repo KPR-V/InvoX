@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPlansForBusiness } from "../Utils/All_plans_of_a_business";
 import { useData } from "../Utils/datacontext";
-
+import { ethers } from "ethers";
 interface Plan {
   name: string;
   amount: number; // Change to string to match formatted amount
@@ -12,8 +12,19 @@ interface Plan {
 const Myplans: React.FC = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const { bwalletAddress } = useData();
-
+  const { bwalletAddress , bsetWalletAddress } = useData();
+useEffect(() => {
+  const checkWalletConnection = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const accounts = await provider.listAccounts();
+      if (accounts.length > 0) {
+        bsetWalletAddress(accounts[0]);
+      }
+    }
+  };
+  checkWalletConnection();
+}, []);
   useEffect(() => {
     const fetchPlans = async () => {
       if (!bwalletAddress) {

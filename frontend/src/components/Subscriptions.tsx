@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { getCustomerSubscriptions } from "../Utils/getcustomersubscriptions";
 import { useData } from "../Utils/datacontext";
-
+import { ethers } from "ethers";
 interface Subscription {
   name: string;
   duration: string;
@@ -13,8 +13,19 @@ interface Subscription {
 const Subscriptions: React.FC = () => {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(true);
-  const { walletAddress } = useData();
-
+  const { walletAddress ,setWalletAddress } = useData();
+useEffect(() => {
+  const checkWalletConnection = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const accounts = await provider.listAccounts();
+      if (accounts.length > 0) {
+        setWalletAddress(accounts[0]);
+      }
+    }
+  };
+  checkWalletConnection();
+}, []);
   useEffect(() => {
     const fetchSubscriptions = async () => {
       if (!walletAddress) {

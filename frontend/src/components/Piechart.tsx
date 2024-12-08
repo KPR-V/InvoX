@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
+import { ethers } from "ethers";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface Plan {
@@ -22,22 +22,40 @@ const Piechart: React.FC = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { bwalletAddress } = useData();
+  const { bwalletAddress ,bsetWalletAddress} = useData();
 
   useEffect(() => {
-    const fetchRevenue = async () => {
+    const checkWalletConnection = async () => {
+      if (typeof window.ethereum !== "undefined") {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const accounts = await provider.listAccounts();
+        if (accounts.length > 0) {
+          bsetWalletAddress(accounts[0]);
+        }
+      }
+    };
+    checkWalletConnection();
+  }, []);
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      if (!bwalletAddress) {
+        setLoading(false);
+        return;
+      }
+
       try {
-        const data = await getSubscriptionRevenue(bwalletAddress);
-        setPlans(data);
-      } catch (err) {
-        setError('Failed to fetch revenue data');
-        console.error(err);
+        const data = await getSubscriptionRevenue(
+          bwalletAddress
+        );
+       setPlans(data);
+      } catch (error) {
+        console.error("Error fetching subscriptions:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchRevenue();
+    fetchSubscriptions();
   }, [bwalletAddress]);
 
   if (loading) {
