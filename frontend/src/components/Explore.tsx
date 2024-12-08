@@ -65,7 +65,7 @@ const closeModal = () => {
         name: selectedOffer?.name || "Company",
       }}
       productInfo={{
-        name:`Duration: ${selectedOffer?.duration.toString()} ${selectedOffer?.duration.toString() == "1" ? "month" : "months"}`  || "Subscription",
+        name: ` Name : ${selectedOffer?.name} Duration: ${selectedOffer?.duration.toString()} ${selectedOffer?.duration.toString() == "1" ? "month" : "months"}` || "Subscription",
         description: selectedOffer?.description || "",
         image: selectedOffer?.image || "",
       }}
