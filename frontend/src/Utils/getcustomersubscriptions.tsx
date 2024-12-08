@@ -6,9 +6,9 @@ export const getCustomerSubscriptions = async (walletAddress:string) => {
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
-    const data = await response.json();
-    console.log("Subscriptions:", data.subscriptions);
-    return data.subscriptions;
+    const subscriptions = await response.json();
+    console.log("Subscriptions:", subscriptions);
+    return subscriptions; // Remove .subscriptions since backend sends array directly
   } catch (error) {
     console.error("Failed to fetch subscriptions:", error);
     return [];

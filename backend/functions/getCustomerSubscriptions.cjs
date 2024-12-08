@@ -22,9 +22,26 @@ const requestClient2 = new RequestNetwork({
 });
 
 exports.handler = async (event) => {
-  const { walletAddress } = JSON.parse(event.body);
-
+  let walletAddress;
+  
   try {
+    // Try to get walletAddress from query parameters first
+    if (event.queryStringParameters && event.queryStringParameters.walletAddress) {
+      walletAddress = event.queryStringParameters.walletAddress;
+    } 
+    // Fall back to body if query params don't exist
+    else if (event.body) {
+      const body = JSON.parse(event.body);
+      walletAddress = body.walletAddress;
+    }
+
+    if (!walletAddress) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Wallet address is required" })
+      };
+    }
+
     const requests2 = await requestClient2.fromIdentity({
       type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
       value: walletAddress,
@@ -48,7 +65,10 @@ exports.handler = async (event) => {
     console.error("Error fetching subscriptions:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ 
+        error: error.message || "Internal server error",
+        details: error.toString()
+      })
     };
   }
 };
