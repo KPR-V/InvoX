@@ -61,16 +61,16 @@ Explore how InvoX operates with this detailed flowchart:
 ## Try It Out! 🌐
 
 Experience InvoX in action by visiting the deployed application:  
-[InvoX](https://invox-pay.netlify.app/dashboard)
+[InvoX](https://invox-pay.netlify.app)
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/KPR-V/Tronent.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/KPR-V/InvoX.svg?style=for-the-badge
 [contributors-url]: https://github.com/KPR-V/InvoX/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/KPR-V/Tronent.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/KPR-V/InvoX.svg?style=for-the-badge
 [forks-url]: https://github.com/KPR-V/InvoX/network/members
-[stars-shield]: https://img.shields.io/github/stars/KPR-V/Tronent.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/KPR-V/InvoX.svg?style=for-the-badge
 [stars-url]: https://github.com/KPR-V/InvoX/stargazers
-[issues-shield]: https://img.shields.io/github/issues/KPR-V/Tronent.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/KPR-V/InvoX.svg?style=for-the-badge
 [issues-url]: https://github.com/KPR-V/InvoX/issues
-[license-shield]: https://img.shields.io/github/license/KPR-V/Tronent.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/KPR-V/InvoX.svg?style=for-the-badge
 [license-url]: https://github.com/KPR-V/InvoX/blob/main/LICENSE.txt
