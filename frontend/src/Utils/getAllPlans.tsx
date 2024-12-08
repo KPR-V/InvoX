@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import CONTRACT_ABI from "./contractABI.json";
 
-const CONTRACT_ADDRESS = "0x85FfbE0a64AD242C3FD29F2c31c605dcaE0581b0";
+import { CONTRACT_ADDRESS } from "./All_plans_of_a_business";
 
 export const getAllPlans = async () => {
   try {

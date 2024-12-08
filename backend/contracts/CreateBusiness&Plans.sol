@@ -89,7 +89,11 @@ contract BusinessPlans {
 
         return allPlans;
     }
-
+    function getPlansForBusiness(address _business) public view returns (Plan[] memory) {
+        require(bytes(businesses[_business].name).length > 0, "Business not registered");
+        return plans[_business];
+    }
+    
     function deactivatePlanByTitle(string memory _title) public {
         bool found = false;
         for (uint i = 0; i < plans[msg.sender].length; i++) {

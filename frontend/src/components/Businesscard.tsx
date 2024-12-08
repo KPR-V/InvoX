@@ -71,21 +71,6 @@ const BusinessCard: React.FC = () => {
        setIsConnecting(false);
      }
    };
-
-
-  // const payFeeAndCreateBusiness = async () => {
-  //   if (walletAddress) {
-  //     try {
-
-  //       console.log("Paying fee...");
-  //       setIsFeePaid(true);
-  //       setIsBusinessCreated(true);
-  //     } catch (error) {
-  //       console.error("Fee payment failed:", error);
-  //     }
-  //   }
-  // };
-
   const goToDashboard = () => {
     navigate("/dashboardbusiness"); 
   };
@@ -171,7 +156,7 @@ const BusinessCard: React.FC = () => {
             </button>
           ) : !isFeePaid ? (
             <button
-              onClick={() => payFeeAndCreateBusiness(businessName, businessEmail, businessType, registrationNumber)}
+              onClick={() => payFeeAndCreateBusiness(businessName, businessEmail, businessType, registrationNumber,walletAddress)}
               className="w-full bg-green-500 text-black py-2 px-4 rounded hover:bg-green-600"
             >
               Pay Fee & Create Business
