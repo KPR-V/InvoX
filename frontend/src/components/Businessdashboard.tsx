@@ -113,7 +113,7 @@ if (loading) {
               <Myplans />
             </div>
             <div className="thirdrow w-[100%] h-64 bg-zinc-950 mt-24 flex justify-between">
-              <Piechart plans={plans}/>
+              <Piechart/>
               <Worldmap />
               <Transactionhistory />
             </div>
