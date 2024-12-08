@@ -55,9 +55,7 @@ const Businessdashboard = () => {
 
      fetchData();
    }, [bwalletAddress]);
-if (loading) {
-  return <div className="text-center text-zinc-300">Loading...</div>;
-}
+
   // Function to open the modal
   const handleCreateNewPlan = () => {
     setIsModalOpen(true);
@@ -81,7 +79,7 @@ if (loading) {
       <div className="bg-zinc-950 w-full h-full">
         <div className="flex flex-col w-[90%] mx-auto h-full bg-zinc-950">
           <div className="heading flex justify-between p-2 my-10">
-          <div className="text-5xl font-montserrat text-gray-400 font-light bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-yellow-500 to-pink-500 animate-gradient bg-[length:300%_300%]">
+            <div className="text-5xl font-montserrat text-gray-400 font-light bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-yellow-500 to-pink-500 animate-gradient bg-[length:300%_300%]">
               Business Dashboard
             </div>
             <button
@@ -94,28 +92,57 @@ if (loading) {
           <div className="flex flex-col justify-between mb-10 bg-zinc-950">
             <div className="firstrow w-[100%]">
               <div className="cards w-[100%] flex justify-between">
-                <div className="w-[22%]">
-                  <Analyticscard Header="Total Revenue" Number={`${totalRevenueUSD} USD`} />
-                </div>
-                <div className="w-[22%]">
-                  <Analyticscard Header="Total Customers" Number={totalUsers.toString()} />
-                </div>
-                <div className="w-[22%]">
-                  <Analyticscard Header="Revenue this Month" Number={`${monthlyMetrics.monthlyRevenue} ETH`} />
-                </div>
-                <div className="w-[22%]">
-                  <Analyticscard Header="Customers this Month" Number={monthlyMetrics.newUsers.toString()} />
-                </div>
+                {loading ? (
+                  <div className="w-full flex justify-between">
+                    {[...Array(4)].map((_, i) => (
+                      <div key={i} className="w-[22%] h-32 bg-zinc-900 animate-pulse rounded-xl"></div>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-[22%]">
+                      <Analyticscard Header="Total Revenue" Number={`${totalRevenueUSD} USD`} />
+                    </div>
+                    <div className="w-[22%]">
+                      <Analyticscard Header="Total Customers" Number={totalUsers.toString()} />
+                    </div>
+                    <div className="w-[22%]">
+                      <Analyticscard Header="Revenue this Month" Number={`${monthlyMetrics.monthlyRevenue} ETH`} />
+                    </div>
+                    <div className="w-[22%]">
+                      <Analyticscard Header="Customers this Month" Number={monthlyMetrics.newUsers.toString()} />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
             <div className="secondrow w-[100%] h-60 mt-10 flex justify-between">
-              <Linechart />
-              <Myplans />
+              {loading ? (
+                <div className="w-full flex justify-between">
+                  <div className="w-[65%] bg-zinc-900 animate-pulse rounded-xl"></div>
+                  <div className="w-[30%] bg-zinc-900 animate-pulse rounded-xl"></div>
+                </div>
+              ) : (
+                <>
+                  <Linechart />
+                  <Myplans />
+                </>
+              )}
             </div>
             <div className="thirdrow w-[100%] h-64 bg-zinc-950 mt-24 flex justify-between">
-              <Piechart/>
-              <Worldmap />
-              <Transactionhistory />
+              {loading ? (
+                <div className="w-full flex justify-between">
+                  <div className="w-[30%] bg-zinc-900 animate-pulse rounded-xl"></div>
+                  <div className="w-[30%] bg-zinc-900 animate-pulse rounded-xl"></div>
+                  <div className="w-[30%] bg-zinc-900 animate-pulse rounded-xl"></div>
+                </div>
+              ) : (
+                <>
+                  <Piechart/>
+                  <Worldmap />
+                  <Transactionhistory />
+                </>
+              )}
             </div>
           </div>
         </div>
