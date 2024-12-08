@@ -24,27 +24,29 @@ function formatDate(dateString) {
 
 export const getCustomerSubscriptions = async (walletAddress) => {
     try {
-        // Fetch requests from both networks
         const requests2 = await requestClient2.fromIdentity({
             type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
             value: walletAddress,
         });
 
-        // Get request data
         const requestDatas2 = await Promise.all(
             requests2.map(async (request) => await request.getData())
         );
 
-        // Format into PlanInfo array
-        const subscriptions = requestDatas2.map(request => ({
-            name: request.contentData.invoiceItems[0].name,
-            subscriptionFee: ethers.utils.formatEther(request.expectedAmount),
-            purchaseDate: formatDate(request.contentData.creationDate),
-        }));
+        const subscriptions = requestDatas2.map(request => {
+            const invoiceItem = request.contentData.invoiceItems[0].name;
+            const { name, durationMonths } = parseInvoiceItem(invoiceItem);
+            return {
+                name: name,
+                duration: `${durationMonths} month${durationMonths > 1 ? 's' : ''}`,
+                subscriptionFee: ethers.utils.formatEther(request.expectedAmount),
+                purchaseDate: formatDate(request.contentData.creationDate),
+                payerAddress: request.payer.value,
+                status: request.state
+            };
+        });
 
-        console.log("Fetched subscriptions:", subscriptions);
         return subscriptions;
-
     } catch (error) {
         console.error("Error fetching subscriptions:", error);
         return [];
