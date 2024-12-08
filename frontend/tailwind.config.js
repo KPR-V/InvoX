@@ -20,6 +20,7 @@ export default {
         montserrat: ["Montserrat"],
         cursive: ["Playwrite"],
       },
+     
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],

@@ -15,6 +15,7 @@ const BusinessCard: React.FC = () => {
   const [isBusinessCreated, setIsBusinessCreated] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isCreatingBusiness, setIsCreatingBusiness] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   // Check if wallet is already connected
@@ -146,19 +147,19 @@ const BusinessCard: React.FC = () => {
 
   return (
     <div className="relative w-[30%] mx-auto">
-      <div className="bg-zinc-950 rounded-2xl p-6 flex flex-col shadow-3xl shadow-orange-400 min-h-[500px] justify-between">
+      <div className="bg-zinc-950 rounded-2xl p-6 flex flex-col shadow-3xl shadow-orange-400 border-running border-orange-400 min-h-[500px] justify-between">
         <h2 className="text-2xl font-bold mb-4 text-center">
           Business Registration
         </h2>
 
         <div className="text-black">
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1 text-white">Business Name</label>
+          <div className="mb-4 ">
+            <label className="block text-sm font-medium mb-1 ">Business Name</label>
             <input
               type="text"
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 bg-transparent"
               placeholder="Enter business name"
             />
           </div>
@@ -180,7 +181,7 @@ const BusinessCard: React.FC = () => {
               type="email"
               value={businessEmail}
               onChange={(e) => setBusinessEmail(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 bg-transparent"
               placeholder="Enter business email"
             />
           </div>
@@ -191,7 +192,7 @@ const BusinessCard: React.FC = () => {
               type="number"
               value={registrationNumber}
               onChange={(e) => setRegistrationNumber(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 bg-transparent"
               placeholder="Enter registration number"
             />
           </div>
@@ -202,7 +203,7 @@ const BusinessCard: React.FC = () => {
               type="textarea"
               value={businessDescription}
               onChange={(e) => setBusinessDescription(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 bg-transparent"
               placeholder="Enter business description"
             />
           </div> */}
@@ -221,13 +222,14 @@ const BusinessCard: React.FC = () => {
             <button
               onClick={handlePayFeeAndCreateBusiness}
               disabled={isCreatingBusiness}
-              className="w-full bg-green-500 text-black py-2 px-4 rounded hover:bg-green-600 disabled:opacity-50"
+              className="w-full bg-orange-400 text-black py-2 px-4 rounded hover:bg-orange-500 disabled:opacity-50"
             >
               {isCreatingBusiness ? "Creating Business..." : "Pay Fee & Create Business"}
             </button>
           )}
         </div>
-      </div>
+              </div>
+       
     </div>
   );
 };
