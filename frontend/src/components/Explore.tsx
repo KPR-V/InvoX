@@ -7,6 +7,7 @@ interface Offers {
   amount: number;
   description: string;
   image?: string;
+  duration: number;
 }
 interface ExploreProps {
   setchange:any;
@@ -64,9 +65,9 @@ const closeModal = () => {
         name: selectedOffer?.name || "Company",
       }}
       productInfo={{
-        name: selectedOffer?.type || "Subscription",
+        name:`Duration: ${selectedOffer?.duration.toString()} ${selectedOffer?.duration.toString() == "1" ? "month" : "months"}`  || "Subscription",
         description: selectedOffer?.description || "",
-        image: selectedOffer?.image,
+        image: selectedOffer?.image || "",
       }}
       amountInUSD={selectedOffer?.amount || 0}
       sellerAddress="0x1c32A90A83511534F2582E631314569ff6C76875"
@@ -113,7 +114,7 @@ const closeModal = () => {
       }}
     />
   );
-
+console.log(offers);
   return (
     <>
       <div className="pb-10 border-b-[1px] border-orange-400 w-[90%] mx-auto">
@@ -137,8 +138,8 @@ const closeModal = () => {
                   {offer.name}
                 </h3>
                 <p className="text-base text-gray-200 pt-4">
-                  <span className="text-orange-400 text-lg">Type:</span>{" "}
-                  {offer.type}
+                  <span className="text-orange-400 text-lg">Duration:</span>{" "}
+                  {offer.duration} {offer.duration > 1 ? "months" : "month"}
                 </p>
                 <p className="text-base text-gray-200 pt-2">
                   <span className="text-lg">Amount:</span> <span>$</span>
@@ -194,7 +195,10 @@ const closeModal = () => {
 
             {modalType === "details" ? (
               <div>
-                <p className="text-zinc-300 mb-2">Type: {selectedOffer.type}</p>
+                <p className="text-zinc-300 mb-2">
+                  Duration: {selectedOffer.duration}{" "}
+                  {selectedOffer.duration > 1 ? "months" : "month"}
+                </p>
                 <p className="text-zinc-300 mb-4">
                   Amount: ${selectedOffer.amount}
                 </p>
@@ -203,7 +207,11 @@ const closeModal = () => {
             ) : (
               <div className="space-y-4">
                 <div className="text-zinc-300 mb-4">
-                  <p className="mb-2">Subscribing to: {selectedOffer.type}</p>
+                  <p className="mb-2">
+                    {" "}
+                    Duration: {selectedOffer.duration}{" "}
+                    {selectedOffer.duration > 1 ? "months" : "month"}
+                  </p>
                   <p>Amount: ${selectedOffer.amount}</p>
                 </div>
                 <div className="bg-zinc-800 rounded-lg p-4">
