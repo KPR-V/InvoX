@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
-
+import { payFeeAndCreateBusiness } from "../Utils/CreateBusiness";
 const BusinessCard: React.FC = () => {
   const [businessName, setBusinessName] = useState("");
   const [businessType, setBusinessType] = useState("");
@@ -73,17 +73,18 @@ const BusinessCard: React.FC = () => {
    };
 
 
-  const payFeeAndCreateBusiness = async () => {
-    if (walletAddress) {
-      try {
-        console.log("Paying fee...");
-        setIsFeePaid(true);
-        setIsBusinessCreated(true);
-      } catch (error) {
-        console.error("Fee payment failed:", error);
-      }
-    }
-  };
+  // const payFeeAndCreateBusiness = async () => {
+  //   if (walletAddress) {
+  //     try {
+
+  //       console.log("Paying fee...");
+  //       setIsFeePaid(true);
+  //       setIsBusinessCreated(true);
+  //     } catch (error) {
+  //       console.error("Fee payment failed:", error);
+  //     }
+  //   }
+  // };
 
   const goToDashboard = () => {
     navigate("/dashboardbusiness"); 
@@ -171,7 +172,7 @@ const BusinessCard: React.FC = () => {
             </button>
           ) : !isFeePaid ? (
             <button
-              onClick={payFeeAndCreateBusiness}
+              onClick={() => payFeeAndCreateBusiness(businessName, businessEmail, businessType, registrationNumber)}
               className="w-full bg-green-500 text-black py-2 px-4 rounded hover:bg-green-600"
             >
               Pay Fee & Create Business
