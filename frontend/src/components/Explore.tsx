@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PaymentWidget from "@requestnetwork/payment-widget/react";
-
+import {getAllPlans} from "../Utils/getAllPlans";
 interface Offers {
   name: string;
   type: string;

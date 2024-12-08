@@ -3,7 +3,7 @@ import CONTRACT_ABI from "./contractABI.json";
 
 export const CONTRACT_ADDRESS = "0x4B93F9CBf63d77b21B91Bb0AA7bc115091BF421C";
 
-export const getAllPlans = async () => {
+export const getPlansForBusiness = async () => {
   try {
     // Connect to Ethereum provider
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -11,7 +11,7 @@ export const getAllPlans = async () => {
 
     console.log("Fetching all plans of a particular business...");
 
-    // Call the getAllPlans function from the contract
+    // Call the getPlansForBusiness function from the contract
     const plans = await contract.getPlansForBusiness();
 
     // Log the plans retrieved from the contract

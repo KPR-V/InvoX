@@ -7,6 +7,7 @@ import Worldmap from "./Worldmap";
 import Transactionhistory from "./Transactionhistory";
 import PlanModal from "./PlanModal";
 
+
 const Businessdashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [plans, setPlans] = useState<any[]>([]);
@@ -24,7 +25,7 @@ const Businessdashboard = () => {
   };
 
   // Function to handle plan creation
-  const handleCreatePlan = (newPlan: { name: string; amount: number; duration: string; description: string }) => {
+  const  handleCreatePlan= (newPlan: { name: string; amount: number; duration: string; description: string }) => {
     setPlans([...plans, newPlan]);
 
     // Update revenue and customer count (simplified logic for demo purposes)

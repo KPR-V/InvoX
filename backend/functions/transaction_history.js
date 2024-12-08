@@ -34,3 +34,11 @@ const requestDatas2 = requests2.map((request) => request.getData());
 const length=requestDatas2.length;
 
 const last_5_transactions = requestDatas2.slice(Math.max(requestDatas2.length - 5, 0));
+
+export const transactions = last_5_transactions.map((transaction) => {
+    const name = transaction.contentData.invoiceItems[0].name;
+    const walletAddress = transaction.contentData.payee;
+    const amount = transaction.miscellaneous.amountInUSD;
+    return { name, walletAddress, amount };
+});
+

@@ -1,3 +1,4 @@
+import { getPlansForBusiness } from "../Utils/All_plans_of_a_business";
 interface Plan {
     name: string;
     amount: number;
