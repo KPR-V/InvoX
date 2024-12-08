@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Analyticscard from "./Analyticscard";
 import Linechart from "./Linechart";
 import Myplans from "./Myplans";
