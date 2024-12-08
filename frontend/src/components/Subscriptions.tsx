@@ -1,5 +1,8 @@
+// Subscriptions.tsx
 import React, { useState, useEffect } from "react";
+import { getCustomerSubscriptions } from "../Utils/getcustomersubscriptions";
 import { useData } from "../Utils/datacontext";
+
 interface Subscription {
   name: string;
   duration: string;
@@ -8,22 +11,33 @@ interface Subscription {
 }
 
 const Subscriptions: React.FC = () => {
-  const { walletAddress } = useData();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { walletAddress } = useData();
 
   useEffect(() => {
-    const fetchSubscriptionsForWallet = async () => {
-      if (!walletAddress) return;
+    const fetchSubscriptions = async () => {
+      if (!walletAddress) {
+        setLoading(false);
+        return;
+      }
 
-      console.log("Wallet address available:", walletAddress);
-      // Here you can add API call to fetch subscriptions for this wallet
-      // For example:
-      // const userSubscriptions = await fetchUserSubscriptions(walletAddress);
-      // setSubscriptions(userSubscriptions);
+      try {
+        const fetchedSubscriptions = await getCustomerSubscriptions(walletAddress);
+        setSubscriptions(fetchedSubscriptions);
+      } catch (error) {
+        console.error("Error fetching subscriptions:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchSubscriptionsForWallet();
+    fetchSubscriptions();
   }, [walletAddress]);
+
+  if (loading) {
+    return <div className="text-center text-zinc-300">Loading...</div>;
+  }
 
   return (
     <div className="w-[90%] mx-auto pb-10">
