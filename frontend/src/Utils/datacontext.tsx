@@ -22,8 +22,8 @@ interface DataContextType {
   plans: Plan[];
   setBusiness: (business: Business) => void;
   setPlans: (plans: Plan[]) => void;
-  walletAddress: string;  // Add this field
-  setWalletAddress: (address: string) => void;  // Add this function
+  bwalletAddress: string;  // Add this field
+  bsetWalletAddress: (address: string) => void;  // Add this function
 }
 
 
@@ -33,14 +33,14 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [business, setBusiness] = useState<Business | null>(null);
   const [plans, setPlans] = useState<Plan[]>([]);
-  const [walletAddress, setWalletAddress] = useState<string>("");  // Add this state
+  const [bwalletAddress, bsetWalletAddress] = useState<string>("");  // Add this state
   const value = {
     business,
     plans,
     setBusiness,
     setPlans,
-    walletAddress,     
-    setWalletAddress  
+    bwalletAddress,     
+    bsetWalletAddress  
   };
 
   return (

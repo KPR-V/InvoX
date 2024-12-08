@@ -16,7 +16,7 @@ interface PlanModalProps {
 }
 
 const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, onCreatePlan }) => {
-  const { walletAddress ,setWalletAddress } = useData();
+  const { bwalletAddress ,bsetWalletAddress } = useData();
   // console.log(walletAddress);
   const [planDetails, setPlanDetails] = useState<PlanDetails>({
     name: "",
@@ -43,13 +43,13 @@ const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, onCreatePlan }) 
          const provider = new ethers.providers.Web3Provider(window.ethereum);
          const accounts = await provider.listAccounts();
          if (accounts.length > 0) {
-           setWalletAddress(accounts[0]);
+           bsetWalletAddress(accounts[0]);
          }
        }
      };
      checkWalletConnection();
-    console.log("Current wallet address:", walletAddress);
-  }, [walletAddress]);
+    console.log("Current wallet address:", bwalletAddress);
+  }, [bwalletAddress]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -58,7 +58,7 @@ const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, onCreatePlan }) 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!walletAddress) {
+    if (!bwalletAddress) {
       alert("Please connect your wallet first");
       return;
     }
@@ -69,7 +69,7 @@ const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, onCreatePlan }) 
         planDetails.description,
         planDetails.amount,
         planDetails.duration,
-        walletAddress
+        bwalletAddress
       );
       onClose();
     } catch (error) {

@@ -7,6 +7,27 @@ const CustomerCard: React.FC = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const navigate = useNavigate();
 
+  const sendWalletToBackend = async (address: string) => {
+    try {
+      const response = await fetch('http://localhost:3000/customer/wallet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ walletAddress: address }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send customer wallet address');
+      }
+
+      const data = await response.json();
+      console.log('Customer wallet address sent successfully:', data);
+    } catch (error) {
+      console.error('Error sending customer wallet address:', error);
+    }
+  };
+
   const connectWallet = async () => {
     if (typeof window.ethereum === "undefined") {
       alert("Please install MetaMask to continue!");
@@ -47,8 +68,11 @@ const CustomerCard: React.FC = () => {
         }
       }
       setWalletAddress(address);
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+      await sendWalletToBackend(address);
+
+      window.ethereum.on("accountsChanged", async (accounts: string[]) => {
         setWalletAddress(accounts[0]);
+        await sendWalletToBackend(accounts[0]);
       });
       window.ethereum.on("chainChanged", () => {
         window.location.reload();

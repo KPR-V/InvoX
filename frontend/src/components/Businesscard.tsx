@@ -9,7 +9,7 @@ const BusinessCard: React.FC = () => {
   const [businessEmail, setBusinessEmail] = useState("");
   const [registrationNumber, setRegistrationNumber] = useState("");
   // const [walletAddress, setWalletAddress] = useState("");
-  const { walletAddress, setWalletAddress } = useData();
+  const { bwalletAddress, bsetWalletAddress } = useData();
   const [businessDescription, setBusinessDescription] = useState("");
   const [isFeePaid, setIsFeePaid] = useState(false);
   const [isBusinessCreated, setIsBusinessCreated] = useState(false);
@@ -24,12 +24,33 @@ const BusinessCard: React.FC = () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const accounts = await provider.listAccounts();
         if (accounts.length > 0) {
-          setWalletAddress(accounts[0]);
+          bsetWalletAddress(accounts[0]);
         }
       }
     };
     checkWalletConnection();
   }, []);
+
+  const sendWalletToBackend = async (address: string) => {
+    try {
+      const response = await fetch('http://localhost:3000/business/wallet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ walletAddress: address }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send business wallet address');
+      }
+
+      const data = await response.json();
+      console.log('Business wallet address sent successfully:', data);
+    } catch (error) {
+      console.error('Error sending business wallet address:', error);
+    }
+  };
 
   const connectWallet = async () => {
     if (typeof window.ethereum === "undefined") {
@@ -37,7 +58,7 @@ const BusinessCard: React.FC = () => {
       return;
     }
 
-    if (walletAddress) {
+    if (bwalletAddress) {
       alert("Wallet already connected!");
       return;
     }
@@ -48,7 +69,8 @@ const BusinessCard: React.FC = () => {
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
       const address = await signer.getAddress();
-      setWalletAddress(address);
+      bsetWalletAddress(address);
+      await sendWalletToBackend(address); // Send wallet address to backend
 
       const network = await provider.getNetwork();
       if (network.chainId !== 11155111) {
@@ -56,7 +78,7 @@ const BusinessCard: React.FC = () => {
       }
 
       window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        setWalletAddress(accounts[0] || "");
+        bsetWalletAddress(accounts[0] || "");
       });
       window.ethereum.on("chainChanged", () => {
         window.location.reload();
@@ -105,7 +127,7 @@ const BusinessCard: React.FC = () => {
         businessEmail,
         businessType,
         registrationNumber,
-        walletAddress
+        bwalletAddress
       );
       if (success) {
         setIsFeePaid(true);
@@ -187,7 +209,7 @@ const BusinessCard: React.FC = () => {
         </div>
 
         <div>
-          {!walletAddress ? (
+          {!bwalletAddress ? (
             <button
               onClick={connectWallet}
               disabled={isConnecting}

@@ -12,17 +12,17 @@ interface Plan {
 const Myplans: React.FC = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const { walletAddress } = useData();
+  const { bwalletAddress } = useData();
 
   useEffect(() => {
     const fetchPlans = async () => {
-      if (!walletAddress) {
+      if (!bwalletAddress) {
         setLoading(false);
         return;
       }
 
       try {
-        const fetchedPlans = await getPlansForBusiness(walletAddress);
+        const fetchedPlans = await getPlansForBusiness(bwalletAddress);
         setPlans(fetchedPlans);
       } catch (error) {
         console.error("Error fetching plans:", error);
@@ -32,7 +32,7 @@ const Myplans: React.FC = () => {
     };
 
     fetchPlans();
-  }, [walletAddress]);
+  }, [bwalletAddress]);
 
   if (loading) {
     return <div>Loading...</div>;
