@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
+import { getSubscriptionRevenue } from '../Utils/getsubscriptionrevenue';
+import { useData } from '../Utils/datacontext';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -16,11 +18,44 @@ interface Plan {
   description: string;
 }
 
-interface PiechartProps {
-  plans: Plan[];
-}
+const Piechart: React.FC = () => {
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { bwalletAddress } = useData();
 
-const Piechart: React.FC<PiechartProps> = ({ plans }) => {
+  useEffect(() => {
+    const fetchRevenue = async () => {
+      try {
+        const data = await getSubscriptionRevenue(bwalletAddress);
+        setPlans(data);
+      } catch (err) {
+        setError('Failed to fetch revenue data');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRevenue();
+  }, [bwalletAddress]);
+
+  if (loading) {
+    return (
+      <div className="w-[30%] h-60 bg-zinc-950 shadow-lg flex items-center justify-center">
+        <p className="text-zinc-300">Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-[30%] h-60 bg-zinc-950 shadow-lg flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   // Handle case where there are no plans
   if (plans.length === 0) {
     const emptyData = {
