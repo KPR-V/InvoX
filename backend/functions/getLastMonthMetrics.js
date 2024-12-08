@@ -43,6 +43,7 @@ exports.handler = async (event, context) => {
 
     let newUsers = 0;
     let monthlyRevenue = 0;
+    const uniqueWallets = new Set(); // Track unique wallet addresses
 
     requestDatas2.forEach((request) => {
       const creationDate = new Date(request.contentData.creationDate);
@@ -51,6 +52,7 @@ exports.handler = async (event, context) => {
         monthlyRevenue += parseFloat(
           ethers.utils.formatEther(request.expectedAmount)
         );
+        uniqueWallets.add(request.contentData.payer); // Add wallet to unique set
       }
     });
 
@@ -59,6 +61,7 @@ exports.handler = async (event, context) => {
       statusCode: 200,
       body: JSON.stringify({
         newUsers,
+        uniqueUsers: uniqueWallets.size, // Return count of unique users
         monthlyRevenue: monthlyRevenue.toFixed(4), // Return with 4 decimal places
       }),
     };

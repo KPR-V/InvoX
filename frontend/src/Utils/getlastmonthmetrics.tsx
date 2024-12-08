@@ -1,4 +1,10 @@
-export const getLastMonthMetrics = async (walletAddress:string) => {
+interface MonthlyMetrics {
+  newUsers: number;
+  uniqueUsers: number;
+  monthlyRevenue: string;
+}
+
+export const getLastMonthMetrics = async (walletAddress: string): Promise<MonthlyMetrics> => {
   const response = await fetch("https://invox-pay.netlify.app/.netlify/functions/getLastMonthMetrics", {
     method: "POST",
     headers: {

@@ -19,7 +19,11 @@ const Businessdashboard = () => {
   const [plans, setPlans] = useState<any[]>([]);
   const [totalRevenue, setTotalRevenue] = useState<string>("0");
   const [totalRevenueUSD, setTotalRevenueUSD] = useState<string>("0");
-  const [monthlyMetrics, setMonthlyMetrics] = useState({ newUsers: 0, monthlyRevenue: "0" });
+  const [monthlyMetrics, setMonthlyMetrics] = useState({ 
+    newUsers: 0, 
+    uniqueUsers: 0,  // Add this new state
+    monthlyRevenue: "0" 
+  });
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const { bwalletAddress } = useData();
    useEffect(() => {
@@ -111,7 +115,7 @@ const Businessdashboard = () => {
                     </div>
                     <div className="w-[22%]">
                       <Analyticscard
-                        Header="Customers this Month"
+                        Header="Total Customers"
                         Number={totalUsers.toString()}
                       />
                     </div>
@@ -123,8 +127,8 @@ const Businessdashboard = () => {
                     </div>
                     <div className="w-[22%]">
                       <Analyticscard
-                        Header="Total Customers"
-                        Number={monthlyMetrics.newUsers.toString()}
+                        Header="Customers this Month"
+                        Number={monthlyMetrics.uniqueUsers.toString()}  // Changed from newUsers to uniqueUsers
                       />
                     </div>
                   </>
