@@ -6,22 +6,32 @@
 @tailwind utilities;
 
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
+
+
+/* Custom Scrollbar Hidden */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #0d0d0d;
-  border-radius: 4px;
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #4b4845;
-  border-radius: 4px;
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #3e3836;
+.animate-gradient {
+  animation: gradient 3s ease infinite;
 }
 
 
