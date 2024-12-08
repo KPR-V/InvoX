@@ -95,7 +95,7 @@ if (loading) {
             <div className="firstrow w-[100%]">
               <div className="cards w-[100%] flex justify-between">
                 <div className="w-[22%]">
-                  <Analyticscard Header="Total Revenue" Number={`${totalRevenue} ETH (${totalRevenueUSD} USD)`} />
+                  <Analyticscard Header="Total Revenue" Number={`${totalRevenueUSD} USD`} />
                 </div>
                 <div className="w-[22%]">
                   <Analyticscard Header="Total Customers" Number={totalUsers.toString()} />
