@@ -35,6 +35,13 @@ const Subscriptions: React.FC = () => {
     fetchSubscriptions();
   }, [walletAddress]);
 
+  const parseSubscriptionName = (fullName: string) => {
+    const parts = fullName.split('Duration:');
+    const name = parts[0].replace('Name :', '').trim();
+    const duration = parts[1]?.trim() || '';
+    return { name, duration };
+  };
+
   if (loading) {
     return <div className="text-center text-zinc-300">Loading...</div>;
   }
@@ -59,14 +66,17 @@ const Subscriptions: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {subscriptions.map((subscription, index) => (
-                <tr key={index}>
-                  <td className="px-4 py-2 border-b border-orange-400">{subscription.name}</td>
-                  <td className="px-4 py-2 border-b border-orange-400">{subscription.duration}</td>
-                  <td className="px-4 py-2 border-b border-orange-400">{subscription.subscriptionFee}</td>
-                  <td className="px-4 py-2 border-b border-orange-400">{subscription.purchaseDate}</td>
-                </tr>
-              ))}
+              {subscriptions.map((subscription, index) => {
+                const { name, duration } = parseSubscriptionName(subscription.name);
+                return (
+                  <tr key={index}>
+                    <td className="px-4 py-2 border-b border-orange-400">{name}</td>
+                    <td className="px-4 py-2 border-b border-orange-400">{duration}</td>
+                    <td className="px-4 py-2 border-b border-orange-400">{subscription.subscriptionFee}</td>
+                    <td className="px-4 py-2 border-b border-orange-400">{subscription.purchaseDate}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
