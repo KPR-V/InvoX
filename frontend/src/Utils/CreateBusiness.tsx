@@ -1,12 +1,11 @@
 import { ethers } from "ethers";
 import CONTRACT_ABI from "./contractABI.json"
-
 import { CONTRACT_ADDRESS } from "./All_plans_of_a_business";
 
-export const payFeeAndCreateBusiness = async (name: string, email: string, phone: string, registrationNumber: string,walletAddress:string) => {
+export const payFeeAndCreateBusiness = async (name: string, email: string, phone: string, registrationNumber: string, walletAddress: string): Promise<boolean> => {
   if (!walletAddress) {
     console.error("Wallet address is required");
-    return;
+    return false;
   }
 
   try {
@@ -23,7 +22,11 @@ export const payFeeAndCreateBusiness = async (name: string, email: string, phone
     // Wait for the transaction to be mined
     const receipt = await tx.wait();
     console.log("Transaction confirmed:", receipt);
+
+    return true; // Return true if the business was successfully created
   } catch (error) {
     console.error("Registration failed:", error);
+    return false;
   }
 };
+
