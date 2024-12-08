@@ -21,6 +21,27 @@ function formatDate(dateString) {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 }
+function parseInvoiceItem(itemString) {
+    try {
+        const match = itemString.match(/Name\s*:\s*(.*?)\s*Duration\s*:\s*(\d+)\s*month/i);
+        if (match) {
+            return {
+                name: match[1].trim(),
+                durationMonths: parseInt(match[2])
+            };
+        }
+        return {
+            name: itemString, // fallback to full string
+            durationMonths: 1 // default duration
+        };
+    } catch (error) {
+        console.error("Error parsing invoice item:", error);
+        return {
+            name: itemString,
+            durationMonths: 1
+        };
+    }
+}
 
 export const calculateTotalRevenueETH = (requestDatas2) => {
     try {
@@ -106,26 +127,24 @@ export const getSubscriptionRevenue = async (walletAddress) => {
             requests2.map(async (request) => await request.getData())
         );
 
-        // Group by subscription name and sum amounts
         const revenueByPlan = requestDatas2.reduce((acc, request) => {
-            const planName = request.contentData.invoiceItems[0].name;
+            const invoiceItem = request.contentData.invoiceItems[0].name;
+            const { name, durationMonths } = parseInvoiceItem(invoiceItem);
             const amount = parseFloat(ethers.utils.formatEther(request.expectedAmount));
             
-            if (!acc[planName]) {
-                acc[planName] = {
-                    name: planName,
+            if (!acc[name]) {
+                acc[name] = {
+                    name: name,
                     amount: 0,
-                    duration: "Monthly", // You can modify this if needed
+                    duration: `${durationMonths} month${durationMonths > 1 ? 's' : ''}`,
                     description: request.contentData.invoiceItems[0].description || ""
                 };
             }
-            acc[planName].amount += amount;
+            acc[name].amount += amount;
             return acc;
         }, {});
 
-        // Convert to array format for pie chart
-        const pieChartData = Object.values(revenueByPlan);
-        return pieChartData;
+        return Object.values(revenueByPlan);
     } catch (error) {
         console.error("Error getting subscription revenue:", error);
         return [];
@@ -178,6 +197,58 @@ const demonstrateBusinessMetrics = async () => {
         console.error("Error demonstrating metrics:", error);
     }
 };
+// Add this function to businessSide.js
+export const getMonthlySubscriptionRevenue = async (walletAddress) => {
+    try {
+        const requests2 = await requestClient2.fromIdentity({
+            type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
+            value: walletAddress,
+        });
 
+        const requestDatas2 = await Promise.all(
+            requests2.map(async (request) => await request.getData())
+        );
+
+        // Initialize monthly revenue tracker
+        const monthlyRevenue = {};
+
+        requestDatas2.forEach(request => {
+            const date = new Date(request.contentData.creationDate);
+            const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+            const amount = parseFloat(ethers.utils.formatEther(request.expectedAmount));
+            const invoiceItem = request.contentData.invoiceItems[0].name;
+            const { name } = parseInvoiceItem(invoiceItem);
+
+            if (!monthlyRevenue[monthYear]) {
+                monthlyRevenue[monthYear] = {};
+            }
+
+            if (!monthlyRevenue[monthYear][name]) {
+                monthlyRevenue[monthYear][name] = 0;
+            }
+
+            monthlyRevenue[monthYear][name] += amount;
+        });
+
+        // Format and log results
+        console.log("\n=== Monthly Subscription Revenue ===");
+        Object.entries(monthlyRevenue)
+            .sort(([a], [b]) => new Date(a) - new Date(b))
+            .forEach(([month, subscriptions]) => {
+                console.log(`\nMonth: ${month}`);
+                Object.entries(subscriptions).forEach(([plan, revenue]) => {
+                    console.log(`${plan}: ${revenue.toFixed(4)} ETH`);
+                });
+            });
+
+        return monthlyRevenue;
+    } catch (error) {
+        console.error("Error calculating monthly subscription revenue:", error);
+        return {};
+    }
+};
+
+// Example usage:
+// const monthlyRevenue = await getMonthlySubscriptionRevenue("0x828cCc45007EFC1c1d1c221c279B5ac8a7C85592");
 // Execute the function
 demonstrateBusinessMetrics();
