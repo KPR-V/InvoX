@@ -1,9 +1,0 @@
-
-{
-  "name": "backend-functions",
-  "version": "1.0.0",
-  "dependencies": {
-    "@requestnetwork/request-client.js": "^0.50.0",
-    "ethers": "^5.7.2"
-  }
-}
