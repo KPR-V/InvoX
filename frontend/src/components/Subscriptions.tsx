@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useData } from "../Utils/datacontext";
 interface Subscription {
   companyName: string;
   subscriptionType: string;
@@ -8,6 +8,7 @@ interface Subscription {
 }
 
 const Subscriptions: React.FC = () => {
+  const { walletAddress } = useData();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([
     {
       companyName: "Amazon",
@@ -28,6 +29,20 @@ const Subscriptions: React.FC = () => {
       subscriptionAmount: "$50",
     },
   ]);
+
+  useEffect(() => {
+    const fetchSubscriptionsForWallet = async () => {
+      if (!walletAddress) return;
+
+      console.log("Wallet address available:", walletAddress);
+      // Here you can add API call to fetch subscriptions for this wallet
+      // For example:
+      // const userSubscriptions = await fetchUserSubscriptions(walletAddress);
+      // setSubscriptions(userSubscriptions);
+    };
+
+    fetchSubscriptionsForWallet();
+  }, [walletAddress]);
 
   return (
     <div className="w-[90%] mx-auto pb-10">

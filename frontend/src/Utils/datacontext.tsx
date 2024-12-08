@@ -22,8 +22,10 @@ interface DataContextType {
   plans: Plan[];
   setBusiness: (business: Business) => void;
   setPlans: (plans: Plan[]) => void;
-  bwalletAddress: string;  // Add this field
-  bsetWalletAddress: (address: string) => void;  // Add this function
+  bwalletAddress: string; // Add this field
+  bsetWalletAddress: (address: string) => void; // Add this function
+  walletAddress: string
+  setWalletAddress: (address: string) => void;
 }
 
 
@@ -32,6 +34,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [business, setBusiness] = useState<Business | null>(null);
+  const [walletAddress, setWalletAddress] = useState<string>("");
   const [plans, setPlans] = useState<Plan[]>([]);
   const [bwalletAddress, bsetWalletAddress] = useState<string>("");  // Add this state
   const value = {
@@ -40,7 +43,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setBusiness,
     setPlans,
     bwalletAddress,     
-    bsetWalletAddress  
+    bsetWalletAddress,
+    walletAddress,
+    setWalletAddress
   };
 
   return (

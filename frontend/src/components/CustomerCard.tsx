@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
-
+import { useData } from "../Utils/datacontext";
 const CustomerCard: React.FC = () => {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+ 
   const [isConnecting, setIsConnecting] = useState(false);
   const navigate = useNavigate();
-
+const { walletAddress, setWalletAddress } = useData();
   const sendWalletToBackend = async (address: string) => {
     try {
       const response = await fetch('http://localhost:3000/customer/wallet', {
