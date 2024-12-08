@@ -1,12 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
 } from "react-simple-maps";
-// import { getCustomerDistribution } from "../Utils/heatmap"
 
-import { useData } from "../Utils/datacontext";
+// Hardcoded customer data with country names and the number of customers
+const customerData: Record<string, number> = {
+  USA: 150,
+  India: 300,
+  Germany: 100,
+  Brazil: 80,
+  Australia: 120,
+  China: 200,
+  Canada: 50,
+  Russia: 10,
+  Japan: 140,
+  UK: 90,
+  France: 110,
+  Mexico: 130,
+  Italy: 60,
+  SouthAfrica: 40,
+  Spain: 70,
+};
 
 // Function to determine color based on customer count
 const getColor = (count: number) => {
@@ -18,20 +34,6 @@ const getColor = (count: number) => {
 };
 
 const Worldmap: React.FC = () => {
-  const [customerData, setCustomerData] = useState<Record<string, number>>({});
-  const { bwalletAddress } = useData();
-
-  useEffect(() => {
-    const fetchCustomerDistribution = async () => {
-      if (bwalletAddress) {
-        const distribution = await getCustomerDistribution(bwalletAddress);
-        setCustomerData(distribution);
-      }
-    };
-
-    fetchCustomerDistribution();
-  }, [bwalletAddress]);
-
   return (
     <div className="w-[30%] h-60 bg-zinc-950 rounded-2xl shadow-lg p-6">
       <h2 className="text-2xl font-light text-zinc-300 text-center">

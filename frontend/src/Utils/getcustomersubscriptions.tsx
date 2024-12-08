@@ -1,4 +1,4 @@
-const getCustomerSubscriptions = async (walletAddress:string) => {
+export const getCustomerSubscriptions = async (walletAddress:string) => {
   try {
    
     const apiUrl = `https://invox-pay.netlify.app/.netlify/functions/getCustomerSubscriptions?walletAddress=${walletAddress}`;
@@ -15,7 +15,7 @@ const getCustomerSubscriptions = async (walletAddress:string) => {
   }
 };
 
-let walletAddress=""
-getCustomerSubscriptions(walletAddress).then((subscriptions) => {
-console.log("Fetched subscriptions:", subscriptions);
-});
+// let walletAddress=""
+// getCustomerSubscriptions(walletAddress).then((subscriptions) => {
+// console.log("Fetched subscriptions:", subscriptions);
+// });
