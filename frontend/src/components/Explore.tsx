@@ -16,69 +16,17 @@ const Explore: React.FC<ExploreProps> = ({setchange}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState<Offers | null>(null);
   const [modalType, setModalType] = useState<"details" | "buy">("details");
-  const [offers, setOffers] = useState<Offers[]>([
-    {
-      name: "Spotify",
-      type: "Silver",
-      amount: 50,
-      description: "Innovating the future of technology.",
-      image: "./Spotify.png",
-    },
-    {
-      name: "Spotify",
-      type: "Gold",
-      amount: 100,
-      description: "Eco-friendly products for a sustainable planet.",
-      image: "./Spotify.png",
-    },
-    {
-      name: "Spotify",
-      type: "Diamond",
-      amount: 250,
-      description: "Professional services tailored to your needs.",
-      image: "./Spotify.png",
-    },
-    {
-      name: "Netflix",
-      type: "Standard",
-      amount: 10,
-      description: "Innovating the future of technology.",
-      image: "./Netflix.png",
-    },
-    {
-      name: "Netflix",
-      type: "Premium",
-      amount: 30,
-      description: "Eco-friendly products for a sustainable planet.",
-      image: "./Netflix.png",
-    },
-    {
-      name: "Netflix",
-      type: "Elite",
-      amount: 70,
-      description: "Professional services tailored to your needs.",
-      image: "./Netflix.png",
-    },
-    {
-      name: "Tech Innovators",
-      type: "Normal",
-      amount: 150,
-      description: "Innovating the future of technology.",
-    },
-    {
-      name: "Amazon",
-      type: "Premium",
-      amount: 500,
-      description: "Eco-friendly products for a sustainable planet.",
-      image: "./amazon.png",
-    },
-    {
-      name: "Service Pros",
-      type: "Standard",
-      amount: 20,
-      description: "Professional services tailored to your needs.",
-    },
-  ]);
+  const [offers, setOffers] = useState<Offers[]>([]);
+  useEffect(() => {
+    const fetchPlans = async () => {
+      const plans = await getAllPlans();
+      if (plans) {
+        setOffers(plans);
+      }
+    };
+    fetchPlans();
+  }, []);
+      
 
   const [isPaymentWidgetReady, setIsPaymentWidgetReady] = useState(false);
 

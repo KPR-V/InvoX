@@ -66,7 +66,7 @@ const Businessdashboard = () => {
             </div>
             <div className="secondrow w-[100%] h-60 mt-10 flex justify-between">
               <Linechart />
-              <Myplans plans={plans} />
+              <Myplans />
             </div>
             <div className="thirdrow w-[100%] h-64 bg-zinc-950 mt-24 flex justify-between">
               <Piechart plans={plans}/>
@@ -81,7 +81,7 @@ const Businessdashboard = () => {
       <PlanModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onCreatePlan={handleCreatePlan}
+        onCreatePlan={()=>{}}
       />
     </>
   );

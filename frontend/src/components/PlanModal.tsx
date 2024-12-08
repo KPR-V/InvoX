@@ -17,7 +17,7 @@ interface PlanModalProps {
 
 const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, onCreatePlan }) => {
   const { walletAddress ,setWalletAddress } = useData();
-  console.log(walletAddress);
+  // console.log(walletAddress);
   const [planDetails, setPlanDetails] = useState<PlanDetails>({
     name: "",
     amount: 0,

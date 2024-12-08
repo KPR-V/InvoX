@@ -131,7 +131,7 @@ const BusinessCard: React.FC = () => {
 
         <div className="text-black">
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Business Name</label>
+            <label className="block text-sm font-medium mb-1 text-white">Business Name</label>
             <input
               type="text"
               value={businessName}
@@ -142,21 +142,18 @@ const BusinessCard: React.FC = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Business Type</label>
-            <select
+            <label className="block text-sm font-medium mb-1 text-white">Phone Number</label>
+            <input
+              type="number"
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
               className="w-full border rounded p-2"
-            >
-              <option value="">Select type</option>
-              <option value="Sole Proprietorship">Sole Proprietorship</option>
-              <option value="Partnership">Partnership</option>
-              <option value="Corporation">Corporation</option>
-            </select>
+              placeholder="Enter business phone number"
+            />
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Business Email</label>
+            <label className="block text-sm font-medium mb-1 text-white">Business Email</label>
             <input
               type="email"
               value={businessEmail}
@@ -167,7 +164,7 @@ const BusinessCard: React.FC = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Registration Number</label>
+            <label className="block text-sm font-medium mb-1 text-white">Registration Number</label>
             <input
               type="number"
               value={registrationNumber}
@@ -177,8 +174,8 @@ const BusinessCard: React.FC = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Business Description</label>
+          {/* <div className="mb-4">
+            <label className="block text-sm font-medium mb-1 text-white">Business Description</label>
             <input
               type="textarea"
               value={businessDescription}
@@ -186,7 +183,7 @@ const BusinessCard: React.FC = () => {
               className="w-full border rounded p-2"
               placeholder="Enter business description"
             />
-          </div>
+          </div> */}
         </div>
 
         <div>
