@@ -116,7 +116,7 @@ interface ConnectWalletModalProps {
           <button
             onClick={connectWallet}
             disabled={isConnecting}
-            className="w-full py-2 px-4 mt-5 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+            className="w-full py-2 px-4 mt-5 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:opacity-50"
           >
             {isConnecting ? "Connecting..." : "Connect MetaMask Wallet"}
           </button>
