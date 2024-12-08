@@ -152,14 +152,14 @@ const BusinessCard: React.FC = () => {
           Business Registration
         </h2>
 
-        <div className="text-black">
+        <div className="">
           <div className="mb-4 ">
             <label className="block text-sm font-medium mb-1 ">Business Name</label>
             <input
               type="text"
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
-              className="w-full border rounded p-2 bg-transparent"
+              className="w-full border rounded p-2 bg-transparent "
               placeholder="Enter business name"
             />
           </div>
@@ -170,7 +170,7 @@ const BusinessCard: React.FC = () => {
               type="number"
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 bg-transparent"
               placeholder="Enter business phone number"
             />
           </div>
