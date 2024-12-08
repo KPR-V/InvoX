@@ -6,14 +6,58 @@ import Piechart from "./Piechart";
 import Worldmap from "./Worldmap";
 import Transactionhistory from "./Transactionhistory";
 import PlanModal from "./PlanModal";
-
+import { useEffect } from "react";
+import { useData } from "../Utils/datacontext";
+import {fetchRevenue} from "../Utils/calculatetotalrevenueeth";
+import { convertETHtoUSD } from "../Utils/convertethtousd";
+import { getLastMonthMetrics } from "../Utils/getlastmonthmetrics";
+import { getTotalUsers } from "../Utils/gettotalusers";
 
 const Businessdashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [plans, setPlans] = useState<any[]>([]);
-  
-  
+  const [totalRevenue, setTotalRevenue] = useState<string>("0");
+  const [totalRevenueUSD, setTotalRevenueUSD] = useState<string>("0");
+  const [monthlyMetrics, setMonthlyMetrics] = useState({ newUsers: 0, monthlyRevenue: "0" });
+  const [totalUsers, setTotalUsers] = useState<number>(0);
+  const { bwalletAddress } = useData();
+   useEffect(() => {
+     const fetchData = async () => {
+       if (!bwalletAddress) {
+         setLoading(false);
+         return;
+       }
 
+       try {
+         const revenue = await fetchRevenue(bwalletAddress);
+         setTotalRevenue(revenue || "0");
+         
+         // Convert ETH to USD
+         if (revenue) {
+           const usdAmount = await convertETHtoUSD(revenue);
+           setTotalRevenueUSD(usdAmount);
+         }
+
+         // Fetch last month's metrics
+         const metrics = await getLastMonthMetrics(bwalletAddress);
+         setMonthlyMetrics(metrics);
+
+         // Fetch total users
+         const users = await getTotalUsers(bwalletAddress);
+         setTotalUsers(users);
+       } catch (error) {
+         console.error("Error fetching data:", error);
+       } finally {
+         setLoading(false);
+       }
+     };
+
+     fetchData();
+   }, [bwalletAddress]);
+if (loading) {
+  return <div className="text-center text-zinc-300">Loading...</div>;
+}
   // Function to open the modal
   const handleCreateNewPlan = () => {
     setIsModalOpen(true);
@@ -51,16 +95,16 @@ const Businessdashboard = () => {
             <div className="firstrow w-[100%]">
               <div className="cards w-[100%] flex justify-between">
                 <div className="w-[22%]">
-                  <Analyticscard Header="Total Revenue" Number="$13856" />
+                  <Analyticscard Header="Total Revenue" Number={`${totalRevenue} ETH (${totalRevenueUSD} USD)`} />
                 </div>
                 <div className="w-[22%]">
-                  <Analyticscard Header="Total Customers" Number="215" />
+                  <Analyticscard Header="Total Customers" Number={totalUsers.toString()} />
                 </div>
                 <div className="w-[22%]">
-                  <Analyticscard Header="Revenue this Month" Number="2643" />
+                  <Analyticscard Header="Revenue this Month" Number={`${monthlyMetrics.monthlyRevenue} ETH`} />
                 </div>
                 <div className="w-[22%]">
-                  <Analyticscard Header="Customers this Month" Number="42" />
+                  <Analyticscard Header="Customers this Month" Number={monthlyMetrics.newUsers.toString()} />
                 </div>
               </div>
             </div>
