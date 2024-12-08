@@ -8,9 +8,25 @@ const requestClient2 = new RequestNetwork({
 });
 
 const parseInvoiceItem = (invoiceItem) => {
-  const [name, duration] = invoiceItem.split(" - ");
-  const durationMonths = parseInt(duration.replace(" months", ""));
-  return { name, durationMonths };
+  try {
+    if (!invoiceItem) {
+      return { name: 'Unknown', durationMonths: 0 };
+    }
+    
+    const parts = invoiceItem.split(' - ');
+    if (parts.length < 2) {
+      return { name: invoiceItem, durationMonths: 0 };
+    }
+
+    const name = parts[0];
+    const duration = parts[1];
+    const durationMonths = parseInt(duration.replace(/[^\d]/g, '')) || 0;
+    
+    return { name, durationMonths };
+  } catch (error) {
+    console.error('Error parsing invoice item:', invoiceItem, error);
+    return { name: String(invoiceItem || 'Unknown'), durationMonths: 0 };
+  }
 };
 
 exports.handler = async (event, context) => {
