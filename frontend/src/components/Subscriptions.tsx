@@ -42,7 +42,7 @@ const Subscriptions: React.FC = () => {
   return (
     <div className="w-[90%] mx-auto pb-10">
       <div className="mb-20 mt-20 text-center text-5xl tracking-tighter text-zinc-300 font-light font-montserrat hover:text-orange-400 transition-colors duration-300 cursor-pointer">
-        Manage Subscriptions
+        My Subscriptions
       </div>
 
       <div className="container w-[90%] h-[40rem] bg-zinc-950 mt-5 border-y-2 border-orange-400 mx-auto rounded-3xl overflow-y-auto p-6">
