@@ -8,7 +8,7 @@
   package = "@netlify/plugin-functions-install-core"
 
 [functions]
-  directory = "backend/functions"
+  directory = "../backend/functions"
 
 [build.environment]
   NODE_VERSION = "20"
