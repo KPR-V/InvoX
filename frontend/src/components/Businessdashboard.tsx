@@ -95,22 +95,37 @@ const Businessdashboard = () => {
                 {loading ? (
                   <div className="w-full flex justify-between">
                     {[...Array(4)].map((_, i) => (
-                      <div key={i} className="w-[22%] h-32 bg-zinc-900 animate-pulse rounded-xl"></div>
+                      <div
+                        key={i}
+                        className="w-[22%] h-32 bg-zinc-900 animate-pulse rounded-xl"
+                      ></div>
                     ))}
                   </div>
                 ) : (
                   <>
                     <div className="w-[22%]">
-                      <Analyticscard Header="Total Revenue" Number={`${totalRevenueUSD} USD`} />
+                      <Analyticscard
+                        Header="Total Revenue"
+                        Number={`${totalRevenueUSD} USD`}
+                      />
                     </div>
                     <div className="w-[22%]">
-                      <Analyticscard Header="Total Customers" Number={totalUsers.toString()} />
+                      <Analyticscard
+                        Header="Customers this Month"
+                        Number={totalUsers.toString()}
+                      />
                     </div>
                     <div className="w-[22%]">
-                      <Analyticscard Header="Revenue this Month" Number={`${monthlyMetrics.monthlyRevenue} ETH`} />
+                      <Analyticscard
+                        Header="Revenue this Month"
+                        Number={`${monthlyMetrics.monthlyRevenue} ETH`}
+                      />
                     </div>
                     <div className="w-[22%]">
-                      <Analyticscard Header="Customers this Month" Number={monthlyMetrics.newUsers.toString()} />
+                      <Analyticscard
+                        Header="Total Customers"
+                        Number={monthlyMetrics.newUsers.toString()}
+                      />
                     </div>
                   </>
                 )}
@@ -138,7 +153,7 @@ const Businessdashboard = () => {
                 </div>
               ) : (
                 <>
-                  <Piechart/>
+                  <Piechart />
                   <Worldmap />
                   <Transactionhistory />
                 </>
@@ -152,7 +167,7 @@ const Businessdashboard = () => {
       <PlanModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onCreatePlan={()=>{}}
+        onCreatePlan={() => {}}
       />
     </>
   );
