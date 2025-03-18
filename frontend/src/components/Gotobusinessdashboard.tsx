@@ -1,97 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
+import { ethers } from "ethers";
+import { useData } from "../Utils/datacontext";
+import contractABI from "../Utils/contractABI.json";
 
 interface ConnectWalletModalProps {
     onClose: () => void;
-  }
+}
   
-  const Gotobusinessdashboard: React.FC<ConnectWalletModalProps> = ({ onClose }) => {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [isConnecting, setIsConnecting] = useState(false);
+const Gotobusinessdashboard: React.FC<ConnectWalletModalProps> = ({ onClose }) => {
+  const { bwalletAddress, bsetWalletAddress, setIsBusinessCreated, isBusinessCreated } = useData();
+  const [isChecking, setIsChecking] = useState(false);
   const navigate = useNavigate();
-
-  // Check if wallet is already connected
+  const { address, isConnected } = useAccount();
+  
+  // Convert contract address to checksum address
+  const contractAddress = ethers.utils.getAddress(import.meta.env.VITE_CONTRACT_ADDRESS);
+  
+  // Sync wallet address with Wagmi
   useEffect(() => {
-    const checkWalletConnection = async () => {
-      if (typeof window.ethereum !== "undefined") {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const accounts = await provider.listAccounts();
-        if (accounts.length > 0) {
-          setWalletAddress(accounts[0]);
-        }
-      }
-    };
-    checkWalletConnection();
-  }, []);
-
-  // Connect wallet function
-  const connectWallet = async () => {
-    if (typeof window.ethereum === "undefined") {
-      alert("Please install MetaMask to continue!");
-      return;
+    if (isConnected && address) {
+      const checksumAddress = ethers.utils.getAddress(address);
+      bsetWalletAddress(checksumAddress);
+      checkBusinessExists(checksumAddress);
     }
+  }, [address, isConnected, bsetWalletAddress]);
 
-    if (walletAddress) {
-      alert("Wallet already connected!");
-      return;
-    }
-
-    setIsConnecting(true);
+  // Check if business exists for this wallet address
+  const checkBusinessExists = async (walletAddress: string) => {
+    setIsChecking(true);
     try {
+      if (typeof window.ethereum === "undefined") {
+        console.error("No Ethereum provider found");
+        return;
+      }
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      setWalletAddress(address);
-
-      const network = await provider.getNetwork();
-      if (network.chainId !== 11155111) {
-        await switchToSepoliaNetwork();
-      }
-
-      // Listen for account changes
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        setWalletAddress(accounts[0] || null);
-      });
-
-      window.ethereum.on("chainChanged", () => {
-        window.location.reload();
-      });
-    } catch (error: any) {
-      console.error("Wallet connection failed:", error);
-      alert(error.code === 4001 ? "Connection rejected by user." : "Connection failed. Try again.");
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+      
+      // Call the getBusiness function from your contract
+      const business = await contract.getBusiness(walletAddress);
+      
+      // If business name exists, business is created
+      const exists = business && business.name && business.name.length > 0;
+      setIsBusinessCreated(exists);
+      
+    } catch (error) {
+      console.error("Error checking if business exists:", error);
     } finally {
-      setIsConnecting(false);
-    }
-  };
-
-  // Switch to Sepolia network if not already connected
-  const switchToSepoliaNetwork = async () => {
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0xaa36a7" }],
-      });
-    } catch (switchError: any) {
-      if (switchError.code === 4902) {
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [
-            {
-              chainId: "0xaa36a7",
-              chainName: "Sepolia Test Network",
-              nativeCurrency: {
-                name: "Sepolia ETH",
-                symbol: "SepoliaETH",
-                decimals: 18,
-              },
-              rpcUrls: ["https://sepolia.infura.io/v3/"],
-              blockExplorerUrls: ["https://sepolia.etherscan.io"],
-            },
-          ],
-        });
-      }
+      setIsChecking(false);
     }
   };
 
@@ -103,9 +62,20 @@ interface ConnectWalletModalProps {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
       <div className="bg-zinc-950 p-12 rounded-2xl shadow-orange-400 w-[400px] text-center border-running border-orange-400 shadow-3xl">
-        <h2 className="text-2xl font-light font-montserrat mb-6 text-zinc-300">Already Registered?</h2>
+        <h2 className="text-2xl font-light font-montserrat mb-6 text-zinc-300">Business Dashboard Access</h2>
 
-        {walletAddress ? (
+        {!bwalletAddress ? (
+          <div className="space-y-4">
+            <p className="text-zinc-300 mb-4">Connect your wallet to access your business dashboard</p>
+            <div className="flex justify-center">
+              <ConnectButton />
+            </div>
+          </div>
+        ) : isChecking ? (
+          <div className="text-center text-zinc-300">
+            <p>Checking business registration...</p>
+          </div>
+        ) : isBusinessCreated ? (
           <button
             onClick={goToDashboard}
             className="w-full py-2 mt-5 px-4 bg-orange-500 text-white rounded hover:bg-orange-600"
@@ -113,13 +83,16 @@ interface ConnectWalletModalProps {
             Go to Business Dashboard
           </button>
         ) : (
-          <button
-            onClick={connectWallet}
-            disabled={isConnecting}
-            className="w-full py-2 px-4 mt-5 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:opacity-50"
-          >
-            {isConnecting ? "Connecting..." : "Connect MetaMask Wallet"}
-          </button>
+          <div className="text-center text-zinc-300">
+            <p>No business registration found for this wallet address.</p>
+            <p className="mt-3">Please register your business first.</p>
+            <button
+              onClick={onClose}
+              className="w-full py-2 mt-5 px-4 bg-orange-500 text-white rounded hover:bg-orange-600"
+            >
+              Close and Register
+            </button>
+          </div>
         )}
         <button
           className="absolute text-2xl top-4 right-6 text-gray-400 hover:text-gray-600"

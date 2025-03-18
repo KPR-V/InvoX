@@ -12,7 +12,7 @@ import {fetchRevenue} from "../Utils/calculatetotalrevenueeth";
 import { convertETHtoUSD } from "../Utils/convertethtousd";
 import { getLastMonthMetrics } from "../Utils/getlastmonthmetrics";
 import { getTotalUsers } from "../Utils/gettotalusers";
-
+import { LoadingSpinner } from "./ui/LoadingSpinner";
 const Businessdashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,8 @@ const Businessdashboard = () => {
   });
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const { bwalletAddress } = useData();
+  const [isCreatingPlan, setIsCreatingPlan] = useState(false);
+
    useEffect(() => {
      const fetchData = async () => {
        if (!bwalletAddress) {
@@ -61,8 +63,13 @@ const Businessdashboard = () => {
    }, [bwalletAddress]);
 
   // Function to open the modal
-  const handleCreateNewPlan = () => {
-    setIsModalOpen(true);
+  const handleCreateNewPlan = async () => {
+    setIsCreatingPlan(true);
+    try {
+      setIsModalOpen(true);
+    } finally {
+      setIsCreatingPlan(false);
+    }
   };
 
   // Function to close the modal
@@ -87,10 +94,11 @@ const Businessdashboard = () => {
               Business Dashboard
             </div>
             <button
-              className="w-40 h-12 bg-orange-400 rounded-lg font-semibold"
+              className="w-40 h-12 bg-orange-400 rounded-lg font-semibold flex items-center justify-center"
               onClick={handleCreateNewPlan}
+              disabled={isCreatingPlan}
             >
-              Create New Plan
+              {isCreatingPlan ? <LoadingSpinner size="small" /> : "Create New Plan"}
             </button>
           </div>
           <div className="flex flex-col justify-between mb-10 bg-zinc-950">

@@ -9,6 +9,7 @@
 
 [functions]
   directory = "../backend/functions"
+  external_node_modules = ["ethers", "@requestnetwork/request-client.js"]
 
 [build.environment]
   NODE_VERSION = "20"
